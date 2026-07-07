@@ -87,6 +87,8 @@
                     <thead>
                         <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-semibold border-b border-slate-100">
                             <th class="py-3.5 px-4 w-12"></th>
+                            <th class="py-3.5 px-4 w-20">Code</th>
+                            <th class="py-3.5 px-4 w-48">Section / Axis</th>
                             <th class="py-3.5 px-4">Question Text (EN / AR)</th>
                             <th class="py-3.5 px-4">Type</th>
                             <th class="py-3.5 px-4">Required</th>
@@ -104,6 +106,13 @@
                                 ondrop="drop(event)">
                                 <td class="py-4 px-4 text-slate-400">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                                </td>
+                                <td class="py-4 px-4 font-mono text-xs font-bold text-slate-700">
+                                    {{ $question->settings['code'] ?? 'N/A' }}
+                                </td>
+                                <td class="py-4 px-4 text-xs text-slate-600">
+                                    <div class="font-semibold">{{ $question->settings['section'] ?? 'N/A' }}</div>
+                                    <div class="text-[10px] text-slate-400 mt-0.5">{{ $question->settings['section_ar'] ?? '' }}</div>
                                 </td>
                                 <td class="py-4 px-4">
                                     <div class="font-bold text-slate-800 text-sm">{{ $question->text['en'] }}</div>
@@ -144,7 +153,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-8 px-4 text-slate-400 italic text-center text-sm">No questions added yet. Click "+ Add Question" to start.</td>
+                                <td colspan="8" class="py-8 px-4 text-slate-400 italic text-center text-sm">No questions added yet. Click "+ Add Question" to start.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -154,8 +163,8 @@
     </div>
 
     <!-- Add Question Modal -->
-    <div id="addQuestionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-6 hidden z-50">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg border border-slate-100 p-6">
+    <div id="addQuestionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-6 hidden z-50 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl border border-slate-100 p-6 my-8">
             <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
                 <h3 class="text-lg font-bold text-slate-800">Add New Question</h3>
                 <button onclick="document.getElementById('addQuestionModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 cursor-pointer">
@@ -163,29 +172,57 @@
                 </button>
             </div>
 
-            <form action="{{ route('questions.store', $survey) }}" method="POST" class="space-y-4">
+            <form action="{{ route('questions.store', $survey) }}" method="POST" class="space-y-6">
                 @csrf
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">English Question Text</label>
-                    <input type="text" name="text[en]" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">Arabic Question Text</label>
-                    <input type="text" name="text[ar]" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">English Question Text</label>
+                        <input type="text" name="text[en]" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Arabic Question Text</label>
+                        <input type="text" name="text[ar]" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">English Description / Instruction (Optional)</label>
+                        <input type="text" name="description[en]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Arabic Description / Instruction (Optional)</label>
+                        <input type="text" name="description[ar]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Question Code (e.g., D1, Q1)</label>
+                        <input type="text" name="settings[code]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (English)</label>
+                        <input type="text" name="settings[section]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (Arabic)</label>
+                        <input type="text" name="settings[section_ar]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">Type</label>
-                        <select name="type" class="w-full px-4 py-2 rounded-lg border border-slate-300 bg-white">
+                        <select name="type" id="modalQuestionType" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600">
                             <option value="single_choice">Single Choice</option>
                             <option value="rating">Rating (Stars/Emoji)</option>
                             <option value="yes_no">Yes / No</option>
                             <option value="text">Open Text Feedback</option>
                         </select>
                     </div>
-                    <div class="flex items-center pt-6">
+                    <div class="flex items-center pt-8">
                         <label class="flex items-center space-x-2 cursor-pointer">
                             <input type="checkbox" name="is_required" value="1" checked class="rounded text-blue-600">
                             <span class="text-sm text-slate-700 font-semibold">Is Required</span>
@@ -193,13 +230,42 @@
                     </div>
                 </div>
 
-                <div class="border-t border-slate-100 pt-4 flex space-x-3">
+                <!-- Modal Answer Options Management -->
+                <div id="modalOptionsContainer" class="border-t border-slate-100 pt-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
+                        <button type="button" onclick="addModalOptionRow()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition cursor-pointer">
+                            + Add Option Row
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-100 rounded-xl shadow-inner max-h-60 overflow-y-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-semibold border-b border-slate-100">
+                                    <th class="py-3 px-4">Label (EN)</th>
+                                    <th class="py-3 px-4">Label (AR)</th>
+                                    <th class="py-3 px-4 w-24">Value</th>
+                                    <th class="py-3 px-4 w-20">Score</th>
+                                    <th class="py-3 px-4 w-20">Icon (Emoji)</th>
+                                    <th class="py-3 px-4 w-24">Color (Hex)</th>
+                                    <th class="py-3 px-4 w-12 text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalOptionsTableBody">
+                                <!-- Dynamic rows added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-6 flex space-x-4">
                     <button type="button" onclick="document.getElementById('addQuestionModal').classList.add('hidden')" 
-                            class="flex-1 py-2.5 border border-slate-200 text-slate-700 rounded-lg text-sm font-bold transition cursor-pointer">
+                            class="flex-1 py-3 border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" 
-                            class="flex-1 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-bold transition cursor-pointer">
+                            class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-md transition cursor-pointer">
                         Add Question
                     </button>
                 </div>
@@ -279,5 +345,76 @@
                 }
             });
         }
+
+        // Modal Option Builder Logic
+        const modalTypeSelect = document.getElementById('modalQuestionType');
+        const modalOptionsContainer = document.getElementById('modalOptionsContainer');
+        const modalOptionsTbody = document.getElementById('modalOptionsTableBody');
+
+        modalTypeSelect.addEventListener('change', function() {
+            if (this.value === 'text') {
+                modalOptionsContainer.classList.add('hidden');
+            } else {
+                modalOptionsContainer.classList.remove('hidden');
+                if (modalOptionsTbody.children.length === 0) {
+                    addModalOptionRow();
+                }
+            }
+        });
+
+        function addModalOptionRow() {
+            const index = modalOptionsTbody.children.length;
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-slate-100 hover:bg-slate-50/20 transition';
+            tr.innerHTML = `
+                <td class="py-3 px-4">
+                    <input type="text" name="options[${index}][label][en]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                </td>
+                <td class="py-3 px-4">
+                    <input type="text" name="options[${index}][label][ar]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                </td>
+                <td class="py-3 px-4">
+                    <input type="text" name="options[${index}][value]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                </td>
+                <td class="py-3 px-4">
+                    <input type="number" name="options[${index}][score]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                </td>
+                <td class="py-3 px-4">
+                    <input type="text" name="options[${index}][icon]" class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300 text-center font-emoji">
+                </td>
+                <td class="py-3 px-4">
+                    <input type="text" name="options[${index}][color]" class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300 font-mono">
+                </td>
+                <td class="py-3 px-4 text-right">
+                    <button type="button" onclick="removeModalOptionRow(this)" class="text-red-500 hover:text-red-700 p-1 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </td>
+            `;
+            modalOptionsTbody.appendChild(tr);
+        }
+
+        function removeModalOptionRow(btn) {
+            const tr = btn.closest('tr');
+            tr.remove();
+            
+            const rows = modalOptionsTbody.querySelectorAll('tr');
+            rows.forEach((row, rIndex) => {
+                row.querySelectorAll('input').forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name) {
+                        const newName = name.replace(/options\[\d+\]/, `options[${rIndex}]`);
+                        input.setAttribute('name', newName);
+                    }
+                });
+            });
+        }
+
+        // Initialize with one row on modal display if not 'text'
+        document.addEventListener('DOMContentLoaded', () => {
+            if (modalTypeSelect.value !== 'text' && modalOptionsTbody.children.length === 0) {
+                addModalOptionRow();
+            }
+        });
     </script>
 @endsection

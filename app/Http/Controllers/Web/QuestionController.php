@@ -23,6 +23,9 @@ class QuestionController extends Controller
             'description.ar' => 'nullable|string',
             'type' => 'required|string|in:single_choice,rating,yes_no,text',
             'is_required' => 'nullable',
+            'settings.code' => 'nullable|string|max:50',
+            'settings.section' => 'nullable|string|max:255',
+            'settings.section_ar' => 'nullable|string|max:255',
             'options' => 'nullable|array',
             'options.*.label.en' => 'required_with:options|string',
             'options.*.label.ar' => 'required_with:options|string',
@@ -33,7 +36,6 @@ class QuestionController extends Controller
         ]);
 
         $data['is_required'] = $request->has('is_required');
-        $data['settings'] = [];
 
         $this->surveyService->addQuestion($survey, $data);
 
@@ -55,6 +57,9 @@ class QuestionController extends Controller
             'description.ar' => 'nullable|string',
             'type' => 'required|string|in:single_choice,rating,yes_no,text',
             'is_required' => 'nullable',
+            'settings.code' => 'nullable|string|max:50',
+            'settings.section' => 'nullable|string|max:255',
+            'settings.section_ar' => 'nullable|string|max:255',
             'options' => 'nullable|array',
             'options.*.id' => 'nullable|integer',
             'options.*.label.en' => 'required_with:options|string',

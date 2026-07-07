@@ -43,6 +43,24 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Question Code (e.g., D1, Q1)</label>
+                        <input type="text" name="settings[code]" value="{{ $question->settings['code'] ?? '' }}" 
+                               class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (English)</label>
+                        <input type="text" name="settings[section]" value="{{ $question->settings['section'] ?? '' }}" 
+                               class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (Arabic)</label>
+                        <input type="text" name="settings[section_ar]" value="{{ $question->settings['section_ar'] ?? '' }}" 
+                               class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">Question Type</label>

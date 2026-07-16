@@ -89,5 +89,15 @@ class SephoraQuizSeeder extends Seeder
                 'status' => 'active',
             ],
         );
+
+        Device::updateOrCreate(
+            ['device_identifier' => 'SEPHORA-KIOSK-001'],
+            [
+                'name' => 'MY SEPHORA Kiosk Lobby 2',
+                'api_token' => 'sephora-dev-token-2026-kiosk-001',
+                'campaign_id' => $campaign->id,
+                'status' => 'active',
+            ],
+        );
     }
 }

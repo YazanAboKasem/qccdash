@@ -39,18 +39,18 @@ class SephoraQuizSeeder extends Seeder
         $questions = [
             // [Question Text, Options, Correct Index]
             ['What are the 3 MY SEPHORA tiers?', ['Silver', 'Bronze, Silver, Gold', 'Gold'], 1],
-            ['How many points do you need to Unlock Silver?', ['200 points', '300 points', '750 points'], 1],
+            ['How many points do you need to Unlock Silver?', ['200 points', '300 points', '750 points'], 0],
             ['Where can you redeem your Welcome Gift?', ['Only Online', 'Only Instore', 'Online, Instore and on the App.'], 2],
             ['How many points do you need to Unlock Gold?', ['1000 points', '500 points', '2000 points'], 0],
             ['Fill in the blank:', ['600 points', '1000 points', '200 points'], 2, 'Every …. points you unlock a gift in the Silver tier.'],
-            ['Fill in the blank:', ['1000 points', '2000 points', '700 points'], 1, 'Every …. points you unlock a gift in the Gold tier.'],
+            ['Fill in the blank:', ['1000 points', '2000 points', '700 points'], 0, 'Every …. points you unlock a gift in the Gold tier.'],
             ['How long is the birthday gift valid for?', ['1 Year', '1 Month', '1 Week'], 1],
             ['True or False:', ['True', 'False', 'None of the above'], 0, 'The Welcome Gift can be redeemed on your first purchase.'],
             ['True or False:', ['True', 'False', 'None of the above'], 0, 'Gold members get free delivery with online purchases.'],
-            ['Which tier(s) get access to a Private Sale?', ['Gold', 'Silver, Gold', 'Bronze, Silver, Gold'], 1],
+            ['Which tier(s) get access to a Private Sale?', ['Gold', 'Silver, Gold', 'Bronze, Silver, Gold'], 2],
             ['Which tier(s) receive a Birthday Gift?', ['Silver, Gold', 'Gold', 'Silver'], 0],
             ['How many points do you need to Unlock Bronze?', ['0 Points', '200 Points', '1000 Points'], 0],
-            ['Which tier(s) get invited to Events?', ['Gold', 'Silver', 'Silver, Gold'], 2],
+            ['Which tier(s) get invited to Events?', ['Bronze', 'Bronze, Silver, Gold', 'Silver, Gold'], 1],
         ];
 
         foreach ($questions as $index => $qData) {

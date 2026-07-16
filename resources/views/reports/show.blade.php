@@ -1,141 +1,158 @@
 @extends('layouts.admin')
 
 @section('title', 'Survey Reports - ' . $survey->title['en'])
-@section('header_title', 'Survey Analytics & Reports')
+@section('header_title', 'MY SEPHORA Quiz Analytics')
 
 @section('content')
     <div class="space-y-8 animate-fade-in">
-        <!-- Header widget -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col md:flex-row md:items-center justify-between">
-            <div>
-                <a href="{{ route('surveys.show', $survey) }}" class="text-xs font-bold text-blue-600 hover:underline">&larr; Back to Survey Details</a>
-                <h2 class="text-2xl font-extrabold text-slate-800 mt-2">{{ $survey->title['en'] }}</h2>
-                <p class="text-sm text-slate-500 mt-1">Analytics overview and submission log reports.</p>
-            </div>
-            
-            <div class="flex items-center space-x-3 mt-4 md:mt-0">
-                <a href="{{ route('reports.export', $survey) }}" class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold shadow-md transition">
-                    Export Responses (CSV)
-                </a>
+        <!-- Header Card -->
+        <div class="bg-slate-950 rounded-2xl shadow-lg border border-slate-800 p-8 text-white relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-red-600/10 via-transparent to-transparent"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between">
+                <div>
+                    <a href="{{ route('surveys.show', $survey) }}" class="text-xs font-bold text-red-400 hover:text-red-300 transition">&larr; Back to Kiosk Quiz Details</a>
+                    <div class="flex items-center space-x-3 mt-3">
+                        <span class="text-xs font-bold bg-red-600 text-white px-3 py-1 rounded-full uppercase tracking-widest">SEPHORA Loyalty</span>
+                        <span class="text-xs font-semibold text-slate-400">Version {{ $survey->version }}</span>
+                    </div>
+                    <h2 class="text-3xl font-black tracking-tight mt-2 text-white">{{ $survey->title['en'] }}</h2>
+                    <p class="text-sm text-slate-400 mt-2">{{ $survey->description['en'] ?? '' }}</p>
+                </div>
+                
+                <div class="flex items-center space-x-3 mt-6 md:mt-0">
+                    <a href="{{ route('reports.export', $survey) }}" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-600/20 transition cursor-pointer">
+                        Export Report (CSV)
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Metrics Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Total Feedbacks</h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Total Participants -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Participants</h4>
                 <div class="flex items-baseline space-x-2 mt-2">
-                    <span class="text-3xl font-extrabold text-slate-800">{{ $stats['total'] }}</span>
-                    <span class="text-xs text-emerald-600 font-semibold">{{ $stats['today'] }} received today</span>
+                    <span class="text-4xl font-black text-slate-900">{{ $stats['total'] }}</span>
+                    <span class="text-xs text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-full">+{{ $stats['today'] }} today</span>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Average Completion Time</h4>
+            <!-- Average Quiz Score -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Average Quiz Score</h4>
                 <div class="flex items-baseline space-x-2 mt-2">
-                    <span class="text-3xl font-extrabold text-slate-800">
+                    <span class="text-4xl font-black text-slate-900">{{ $stats['quiz']['avg_score'] }}</span>
+                    <span class="text-sm text-slate-400 font-medium">/ 13 correct</span>
+                </div>
+            </div>
+
+            <!-- Pass Rate -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Quiz Pass Rate</h4>
+                <div class="flex items-baseline space-x-2 mt-2">
+                    <span class="text-4xl font-black text-emerald-600">{{ $stats['quiz']['pass_rate'] }}%</span>
+                    <span class="text-xs text-slate-400">score &ge; 7 / 13</span>
+                </div>
+            </div>
+
+            <!-- Avg Duration -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Avg Session Time</h4>
+                <div class="flex items-baseline space-x-2 mt-2">
+                    <span class="text-4xl font-black text-slate-900">
                         {{ $stats['avg_duration'] ? round($stats['avg_duration']) . 's' : 'N/A' }}
                     </span>
-                    <span class="text-xs text-slate-400">average session duration</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Language Distribution</h4>
-                <div class="flex items-center space-x-4 mt-3">
-                    <div class="flex-1">
-                        <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                            <span>English</span>
-                            <span>{{ $stats['total'] > 0 ? round((($stats['by_language']['en'] ?? 0) / $stats['total']) * 100) : 0 }}%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div class="bg-blue-600 h-full rounded-full" style="width: {{ $stats['total'] > 0 ? (($stats['by_language']['en'] ?? 0) / $stats['total']) * 100 : 0 }}%"></div>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                            <span>Arabic / العربية</span>
-                            <span>{{ $stats['total'] > 0 ? round((($stats['by_language']['ar'] ?? 0) / $stats['total']) * 100) : 0 }}%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div class="bg-yellow-500 h-full rounded-full" style="width: {{ $stats['total'] > 0 ? (($stats['by_language']['ar'] ?? 0) / $stats['total']) * 100 : 0 }}%"></div>
-                        </div>
-                    </div>
+                    <span class="text-xs text-slate-400">seconds to complete</span>
                 </div>
             </div>
         </div>
 
-        <!-- Charts Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-md font-bold text-slate-800 mb-4">Response Activity Trend (Last 30 Days)</h3>
-                <div class="h-64">
-                    <canvas id="dailyTrendChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-md font-bold text-slate-800 mb-4">Hourly Submission Distribution</h3>
-                <div class="h-64">
-                    <canvas id="hourlyChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Questions Distributions Cards -->
+        <!-- Correct Answers per Question -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h3 class="text-lg font-bold text-slate-800 mb-6">Answer Option Frequency Distributions</h3>
+            <div class="border-b border-slate-100 pb-4 mb-6">
+                <h3 class="text-lg font-bold text-slate-800">Question Accuracy & Correct Rate</h3>
+                <p class="text-xs text-slate-400 mt-1">Detailed statistics showing the percentage of participants who answered each question correctly.</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                @foreach($survey->questions as $question)
-                    @if($question->type != 'text')
-                        <div class="border border-slate-100 rounded-xl p-5">
-                            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Question {{ $loop->iteration }}</span>
-                            <h4 class="font-bold text-slate-800 text-sm mt-1 mb-4">{{ $question->text['en'] }}</h4>
-                            
-                            <div class="space-y-3">
-                                @php 
-                                    $qDist = $distribution[$question->id] ?? [];
-                                    $qTotal = collect($qDist)->sum('count');
-                                @endphp
-                                @forelse($question->answerOptions as $option)
-                                    @php 
-                                        $optDist = collect($qDist)->firstWhere('answer_option_id', $option->id);
-                                        $count = $optDist ? $optDist->count : 0;
-                                        $percent = $qTotal > 0 ? round(($count / $qTotal) * 100) : 0;
-                                        $color = $option->color ?: '#3b82f6';
-                                    @endphp
-                                    <div>
-                                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
-                                            <span class="flex items-center space-x-1.5">
-                                                <span>{{ $option->icon }}</span>
-                                                <span class="font-bold">{{ $option->label['en'] }}</span>
-                                            </span>
-                                            <span>{{ $count }} ({{ $percent }}%)</span>
-                                        </div>
-                                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                            <div class="h-full rounded-full transition-all duration-500" style="background-color: {{ $color }}; width: {{ $percent }}%"></div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-xs text-slate-400 italic">No options defined.</p>
-                                @endforelse
+                @foreach($correctRates as $rate)
+                    <div class="border border-slate-100 rounded-xl p-5 hover:border-slate-200 transition">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-black text-red-600 uppercase tracking-wider bg-red-50 px-2 py-0.5 rounded">Q{{ $loop->iteration }}</span>
+                            <span class="text-xs font-bold text-slate-500">Correct: {{ $rate->correct_count }} / {{ $rate->total_count }}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-4">{{ $rate->text['en'] }}</h4>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                <span>Correct Answer Rate</span>
+                                <span class="{{ $rate->correct_rate >= 70 ? 'text-emerald-600' : ($rate->correct_rate >= 40 ? 'text-yellow-600' : 'text-red-600') }}">
+                                    {{ $rate->correct_rate }}%
+                                </span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-500 {{ $rate->correct_rate >= 70 ? 'bg-emerald-500' : ($rate->correct_rate >= 40 ? 'bg-yellow-500' : 'bg-red-500') }}" 
+                                     style="width: {{ $rate->correct_rate }}%"></div>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 @endforeach
             </div>
         </div>
 
-        <!-- Responses Log Table -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Score Distribution -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 lg:col-span-1">
+                <h3 class="text-md font-bold text-slate-800 mb-4">Quiz Score Distribution</h3>
+                <div class="space-y-3">
+                    @for($scoreIdx = 13; $scoreIdx >= 0; $scoreIdx--)
+                        @php
+                            $scoreCount = $stats['quiz']['score_distribution'][$scoreIdx] ?? 0;
+                            $scorePercent = $stats['total'] > 0 ? round(($scoreCount / $stats['total']) * 100) : 0;
+                        @endphp
+                        <div class="flex items-center space-x-3 text-xs">
+                            <span class="w-14 font-bold text-slate-600 text-right">{{ $scoreIdx }} / 13</span>
+                            <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
+                                <div class="bg-red-600 h-full rounded-full" style="width: {{ $scorePercent }}%"></div>
+                            </div>
+                            <span class="w-10 font-semibold text-slate-500 text-right">{{ $scoreCount }} ({{ $scorePercent }}%)</span>
+                        </div>
+                    @endfor
+                </div>
+            </div>
+
+            <!-- Activity Trend & Hours -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 lg:col-span-2 space-y-6">
+                <h3 class="text-md font-bold text-slate-800">Response Trend & Activity Hourly</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Last 30 Days Trend</span>
+                        <div class="h-48">
+                            <canvas id="dailyTrendChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Hourly Peaks</span>
+                        <div class="h-48">
+                            <canvas id="hourlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs Table -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h3 class="text-lg font-bold text-slate-800 mb-6">Recent Responses Log</h3>
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Quiz Submission Logs</h3>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-semibold border-b border-slate-100">
-                            <th class="py-3 px-4">Response UUID</th>
+                            <th class="py-3 px-4">Participant UUID</th>
+                            <th class="py-3 px-4">Score</th>
+                            <th class="py-3 px-4">Result</th>
                             <th class="py-3 px-4">Language</th>
                             <th class="py-3 px-4">Duration</th>
                             <th class="py-3 px-4">Kiosk Device</th>
@@ -146,6 +163,12 @@
                         @forelse($responses as $response)
                             <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
                                 <td class="py-3.5 px-4 font-mono text-xs text-slate-700">{{ $response->uuid }}</td>
+                                <td class="py-3.5 px-4 text-sm font-bold text-slate-900">{{ $response->score }} / 13</td>
+                                <td class="py-3.5 px-4">
+                                    <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase {{ $response->score >= 7 ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700' }}">
+                                        {{ $response->score >= 7 ? 'Pass' : 'Fail' }}
+                                    </span>
+                                </td>
                                 <td class="py-3.5 px-4 text-xs font-bold uppercase text-slate-600">{{ $response->language }}</td>
                                 <td class="py-3.5 px-4 text-xs text-slate-600">
                                     @if($response->started_at && $response->completed_at)
@@ -159,7 +182,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="py-8 px-4 text-slate-400 italic text-center text-sm">No submissions recorded for this survey yet.</td>
+                                <td colspan="7" class="py-8 px-4 text-slate-400 italic text-center text-sm">No submissions recorded for this survey yet.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -180,10 +203,10 @@
             data: {
                 labels: Object.keys(dailyData),
                 datasets: [{
-                    label: 'Responses Count',
+                    label: 'Submissions',
                     data: Object.values(dailyData),
-                    borderColor: '#1e3a8a',
-                    backgroundColor: 'rgba(30, 58, 138, 0.05)',
+                    borderColor: '#E2001A',
+                    backgroundColor: 'rgba(226, 0, 26, 0.05)',
                     tension: 0.3,
                     fill: true,
                     borderWidth: 2.5
@@ -208,7 +231,6 @@
         const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
         const hourlyData = @json($hourlyDistribution);
         
-        // Prepare hourly labels 0 to 23
         const hourlyLabels = Array.from({ length: 24 }, (_, i) => `${i}:00`);
         const hourlyValues = Array.from({ length: 24 }, (_, i) => hourlyData[i] || 0);
 
@@ -218,7 +240,7 @@
                 labels: hourlyLabels,
                 datasets: [{
                     data: hourlyValues,
-                    backgroundColor: '#d97706',
+                    backgroundColor: '#111827',
                     borderRadius: 4
                 }]
             },

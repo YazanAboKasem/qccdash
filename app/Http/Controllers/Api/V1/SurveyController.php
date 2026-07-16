@@ -79,7 +79,7 @@ class SurveyController extends Controller
                                 'value' => $o->value,
                                 'icon' => $o->icon,
                                 'color' => $o->color,
-                                'score' => $o->score,
+                                'is_correct' => $o->is_correct,
                             ];
                         })->values(),
                     ];

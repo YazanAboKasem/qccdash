@@ -19,6 +19,7 @@ class AnswerOption extends Model
         'icon',
         'color',
         'score',
+        'is_correct',
         'sort_order',
         'is_active',
     ];
@@ -26,6 +27,7 @@ class AnswerOption extends Model
     protected $casts = [
         'label' => 'array',
         'score' => 'integer',
+        'is_correct' => 'boolean',
         'sort_order' => 'integer',
         'is_active' => 'boolean',
     ];

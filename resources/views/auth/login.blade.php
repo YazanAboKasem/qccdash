@@ -40,14 +40,14 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-                    <input type="email" name="email" id="email" value="{{ old('email', 'admin@sephora.local') }}" required 
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required 
                            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-150"
                            placeholder="admin@sephora.local">
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-                    <input type="password" name="password" id="password" value="password" required 
+                    <input type="password" name="password" id="password" required 
                            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-150"
                            placeholder="••••••••">
                 </div>

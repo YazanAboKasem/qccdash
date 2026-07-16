@@ -116,12 +116,12 @@ class SyncService
                 $option = AnswerOption::where('uuid', $answer['answer_option_uuid'])->first();
                 if ($option) {
                     $prepared['answer_option_id'] = $option->id;
-                    $prepared['score'] = $option->score;
+                    $prepared['score'] = $option->is_correct ? 1 : 0;
                 }
             } elseif (!empty($answer['answer_option_id'])) {
                 $option = AnswerOption::find($answer['answer_option_id']);
                 $prepared['answer_option_id'] = $answer['answer_option_id'];
-                $prepared['score'] = $option?->score ?? 0;
+                $prepared['score'] = $option?->is_correct ? 1 : 0;
             }
 
             return $prepared;

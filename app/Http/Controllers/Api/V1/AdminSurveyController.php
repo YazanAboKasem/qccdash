@@ -154,7 +154,7 @@ class AdminSurveyController extends Controller
             'options.*.value' => 'required|string',
             'options.*.icon' => 'nullable|string',
             'options.*.color' => 'nullable|string',
-            'options.*.score' => 'nullable|integer',
+            'options.*.is_correct' => 'nullable|boolean',
         ]);
 
         $question = $this->surveyService->addQuestion($surveyModel, $validated);
@@ -190,7 +190,7 @@ class AdminSurveyController extends Controller
             'options.*.value' => 'required|string',
             'options.*.icon' => 'nullable|string',
             'options.*.color' => 'nullable|string',
-            'options.*.score' => 'nullable|integer',
+            'options.*.is_correct' => 'nullable|boolean',
         ]);
 
         $question = $this->surveyService->updateQuestion($questionModel, $validated);

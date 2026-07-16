@@ -45,6 +45,7 @@ class SurveyService
 
     public function addQuestion(Survey $survey, array $data): Question
     {
+        $this->ensureOneCorrectOption($data['type'], $data['options'] ?? []);
         $data['survey_id'] = $survey->id;
         $question = $this->questionRepository->create($data);
 
@@ -52,6 +53,7 @@ class SurveyService
             foreach ($data['options'] as $index => $optionData) {
                 $optionData['question_id'] = $question->id;
                 $optionData['sort_order'] = $index + 1;
+                $optionData['is_correct'] = filter_var($optionData['is_correct'] ?? false, FILTER_VALIDATE_BOOLEAN);
                 AnswerOption::create($optionData);
             }
         }
@@ -64,6 +66,9 @@ class SurveyService
 
     public function updateQuestion(Question $question, array $data): Question
     {
+        if (isset($data['options'])) {
+            $this->ensureOneCorrectOption($data['type'] ?? $question->type, $data['options']);
+        }
         $question->update($data);
 
         if (isset($data['options'])) {
@@ -71,6 +76,7 @@ class SurveyService
             $existingIds = [];
 
             foreach ($data['options'] as $index => $optionData) {
+                $optionData['is_correct'] = filter_var($optionData['is_correct'] ?? false, FILTER_VALIDATE_BOOLEAN);
                 if (!empty($optionData['id'])) {
                     $option = AnswerOption::find($optionData['id']);
                     if ($option) {
@@ -149,7 +155,7 @@ class SurveyService
                             'value' => $o->value,
                             'icon' => $o->icon,
                             'color' => $o->color,
-                            'score' => $o->score,
+                            'is_correct' => $o->is_correct,
                         ];
                     })->values(),
                 ];
@@ -163,5 +169,23 @@ class SurveyService
         $clone = $survey->duplicate();
         ActivityLog::log('duplicated', $clone, ['source_id' => $survey->id]);
         return $clone;
+    }
+
+    /** A quiz question must have exactly one correct option. */
+    private function ensureOneCorrectOption(string $type, array $options): void
+    {
+        if ($type === 'text') {
+            return;
+        }
+
+        $correctCount = collect($options)->filter(
+            fn (array $option) => filter_var($option['is_correct'] ?? false, FILTER_VALIDATE_BOOLEAN)
+        )->count();
+
+        if ($correctCount !== 1) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'options' => 'Select exactly one correct answer for each quiz question.',
+            ]);
+        }
     }
 }

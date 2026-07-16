@@ -84,7 +84,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
-                            <p class="text-xs text-slate-500 mt-1">Set <strong>Correct?</strong> to 1 for the correct option and 0 for every other option.</p>
+                            <p class="text-xs text-slate-500 mt-1">Tick exactly one correct answer.</p>
                         </div>
                         <button type="button" onclick="addOptionRow()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition cursor-pointer">
                             + Add Option Row
@@ -121,8 +121,8 @@
                                                    class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
                                         </td>
                                         <td class="py-3 px-4">
-                                            <input type="number" name="options[{{ $index }}][score]" value="{{ $option->score }}" required 
-                                                   class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                                            <input type="checkbox" name="options[{{ $index }}][is_correct]" value="1" {{ $option->is_correct ? 'checked' : '' }}
+                                                   class="h-5 w-5 rounded border-slate-300 text-rose-600 focus:ring-rose-500">
                                         </td>
                                         <td class="py-3 px-4">
                                             <input type="text" name="options[{{ $index }}][icon]" value="{{ $option->icon }}" 
@@ -191,7 +191,7 @@
                     <input type="text" name="options[\${index}][value]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
                 </td>
                 <td class="py-3 px-4">
-                    <input type="number" name="options[\${index}][score]" required class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300">
+                    <input type="checkbox" name="options[\${index}][is_correct]" value="1" class="h-5 w-5 rounded border-slate-300 text-rose-600 focus:ring-rose-500">
                 </td>
                 <td class="py-3 px-4">
                     <input type="text" name="options[\${index}][icon]" class="w-full px-2.5 py-1.5 text-sm rounded border border-slate-300 text-center font-emoji">

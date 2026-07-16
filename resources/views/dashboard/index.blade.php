@@ -4,53 +4,75 @@
 @section('header_title', 'MY SEPHORA Dashboard')
 
 @section('content')
+    <!-- Dashboard Info Banner -->
+    <div class="bg-gradient-to-r from-slate-900 to-slate-850 rounded-2xl shadow-md p-6 text-white mb-8 border border-slate-800 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-red-600/10 via-transparent to-transparent"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-black tracking-tight text-white uppercase">Event Mode: MY SEPHORA Kiosk</h2>
+                <p class="text-sm text-slate-400 mt-1.5">Manage live quiz questions, view real-time performance analytics, and export final event reports.</p>
+            </div>
+            @if(count($campaigns) > 0 && count($campaigns[0]->surveys) > 0)
+                <div class="mt-4 md:mt-0">
+                    <a href="{{ route('reports.show', $campaigns[0]->surveys[0]) }}" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-600/20 transition cursor-pointer">
+                        View Analytics Report
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <!-- Metrics Section -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Active Campaigns -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex items-center space-x-4">
-            <div class="p-4 rounded-xl bg-blue-50 text-blue-600">
+            <div class="p-3.5 rounded-xl bg-red-50 text-red-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-500">Active MY SEPHORA Campaigns</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ $stats['active_campaigns'] }} / {{ $stats['total_campaigns'] }}</h3>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Campaigns</p>
+                <h3 class="text-2xl font-black text-slate-900 mt-1">{{ $stats['active_campaigns'] }} / {{ $stats['total_campaigns'] }}</h3>
             </div>
         </div>
 
+        <!-- Total Surveys -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex items-center space-x-4">
-            <div class="p-4 rounded-xl bg-violet-50 text-violet-600">
+            <div class="p-3.5 rounded-xl bg-slate-100 text-slate-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-500">Total Surveys</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ $stats['total_surveys'] }}</h3>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Surveys</p>
+                <h3 class="text-2xl font-black text-slate-900 mt-1">{{ $stats['total_surveys'] }}</h3>
             </div>
         </div>
 
+        <!-- Total Responses -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex items-center space-x-4">
-            <div class="p-4 rounded-xl bg-emerald-50 text-emerald-600">
+            <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-500">Total Responses</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ $stats['total_responses'] }}</h3>
-                <span class="text-xs text-emerald-600 font-semibold">{{ $stats['today_responses'] }} received today</span>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Submissions</p>
+                <h3 class="text-2xl font-black text-slate-900 mt-1">{{ $stats['total_responses'] }}</h3>
+                <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full mt-1 inline-block">+{{ $stats['today_responses'] }} today</span>
             </div>
         </div>
 
+        <!-- Kiosks Online -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex items-center space-x-4">
-            <div class="p-4 rounded-xl bg-amber-50 text-amber-600">
+            <div class="p-3.5 rounded-xl bg-blue-50 text-blue-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-500">Kiosks Online</p>
-                <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ $stats['online_devices'] }} / {{ $stats['active_devices'] }}</h3>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kiosks Online</p>
+                <h3 class="text-2xl font-black text-slate-900 mt-1">{{ $stats['online_devices'] }} / {{ $stats['active_devices'] }}</h3>
             </div>
         </div>
     </div>
 
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Campaigns list -->
+        <!-- Quizzes list -->
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                 <h3 class="text-lg font-bold text-slate-800 mb-6">MY SEPHORA Quizzes</h3>
@@ -60,28 +82,31 @@
                         <div class="border border-slate-100 rounded-xl p-5 hover:border-slate-200 transition">
                             <div class="flex items-center justify-between mb-4">
                                 <div>
-                                    <h4 class="font-bold text-slate-800 text-lg">{{ $campaign->title['en'] }}</h4>
-                                    <p class="text-sm text-slate-500">{{ $campaign->description['en'] ?? '' }}</p>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs font-bold bg-red-50 text-red-600 px-2 py-0.5 rounded uppercase tracking-wider">Campaign</span>
+                                        <h4 class="font-bold text-slate-800 text-lg">{{ $campaign->title['en'] }}</h4>
+                                    </div>
+                                    <p class="text-sm text-slate-500 mt-1">{{ $campaign->description['en'] ?? '' }}</p>
                                 </div>
                                 <span class="px-3 py-1 text-xs font-bold rounded-full {{ $campaign->status == 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">
                                     {{ ucfirst($campaign->status) }}
                                 </span>
                             </div>
                             
-                            <div class="pl-4 border-l-2 border-slate-100 space-y-3 mt-3">
+                            <div class="pl-4 border-l-2 border-slate-200 space-y-3 mt-3">
                                 @forelse($campaign->surveys as $survey)
-                                    <div class="flex items-center justify-between">
+                                    <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition">
                                         <div class="flex items-center space-x-2">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
-                                            <a href="{{ route('surveys.show', $survey) }}" class="font-semibold text-blue-600 hover:underline text-sm">
+                                            <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                                            <a href="{{ route('surveys.show', $survey) }}" class="font-bold text-slate-800 hover:text-red-600 text-sm">
                                                 {{ $survey->title['en'] }}
                                             </a>
-                                            <span class="text-xs text-slate-400">(v{{ $survey->version }})</span>
+                                            <span class="text-xs text-slate-400 font-mono">(v{{ $survey->version }})</span>
                                         </div>
                                         <div class="flex items-center space-x-3">
-                                            <span class="text-xs text-slate-500 font-semibold">{{ $survey->responses_count }} Responses</span>
-                                            <a href="{{ route('reports.show', $survey) }}" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">
-                                                Reports
+                                            <span class="text-xs text-slate-500 font-bold bg-slate-100 px-2.5 py-1 rounded-full">{{ $survey->responses_count }} submissions</span>
+                                            <a href="{{ route('reports.show', $survey) }}" class="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold shadow-md shadow-red-600/10 transition">
+                                                Analytics & Reports
                                             </a>
                                         </div>
                                     </div>
@@ -104,20 +129,20 @@
                         <li>
                             <div class="relative pb-8">
                                 @if($index < count($activity) - 1)
-                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-100" aria-hidden="true"></span>
                                 @endif
                                 <div class="relative flex space-x-3">
                                     <div>
-                                        <span class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-700">
-                                            L
+                                        <span class="h-8 w-8 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-xs font-bold uppercase">
+                                            {{ substr($log->action, 0, 1) }}
                                         </span>
                                     </div>
                                     <div class="flex-1 min-w-0 pt-1.5">
                                         <p class="text-xs text-slate-500">
                                             <span class="font-bold text-slate-800">{{ $log->user_name ?? 'System' }}</span>
-                                            performed <span class="font-semibold text-blue-600">{{ $log->action }}</span>
+                                            performed <span class="font-bold text-slate-900 bg-slate-50 px-1.5 py-0.5 rounded">{{ str_replace('_', ' ', $log->action) }}</span>
                                         </p>
-                                        <span class="text-[10px] text-slate-400 block mt-0.5">
+                                        <span class="text-[10px] text-slate-400 block mt-1">
                                             {{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}
                                         </span>
                                     </div>

@@ -30,7 +30,7 @@ class QuestionController extends Controller
             'options.*.label.en' => 'required_with:options|string',
             'options.*.label.ar' => 'required_with:options|string',
             'options.*.value' => 'required_with:options|string',
-            'options.*.score' => 'required_with:options|integer',
+            'options.*.is_correct' => 'nullable|boolean',
             'options.*.icon' => 'nullable|string',
             'options.*.color' => 'nullable|string',
         ]);
@@ -65,7 +65,7 @@ class QuestionController extends Controller
             'options.*.label.en' => 'required_with:options|string',
             'options.*.label.ar' => 'required_with:options|string',
             'options.*.value' => 'required_with:options|string',
-            'options.*.score' => 'required_with:options|integer',
+            'options.*.is_correct' => 'nullable|boolean',
             'options.*.icon' => 'nullable|string',
             'options.*.color' => 'nullable|string',
         ]);

@@ -24,8 +24,9 @@ class ReportController extends Controller
         $dailyTrend = $this->reportService->getDailyTrend($surveyId, 30);
         $hourlyDistribution = $this->reportService->getHourlyDistribution($surveyId);
         $responses = $this->reportService->getResponsesForExport($surveyId);
+        $correctRates = $this->reportService->getQuestionCorrectRates($surveyId);
 
-        return view('reports.show', compact('survey', 'stats', 'distribution', 'dailyTrend', 'hourlyDistribution', 'responses'));
+        return view('reports.show', compact('survey', 'stats', 'distribution', 'dailyTrend', 'hourlyDistribution', 'responses', 'correctRates'));
     }
 
     public function export(Survey $survey, Request $request)
@@ -50,12 +51,13 @@ class ReportController extends Controller
             // Add UTF-8 BOM for proper Excel Arabic/UTF-8 rendering
             fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 
-            fputcsv($file, ['Response UUID', 'Language', 'Status', 'Started At', 'Completed At', 'Synced At', 'Submitted At', 'Device Name']);
+            fputcsv($file, ['Response UUID', 'Language', 'Score', 'Status', 'Started At', 'Completed At', 'Synced At', 'Submitted At', 'Device Name']);
 
             foreach ($responses as $response) {
                 fputcsv($file, [
                     $response->uuid,
                     $response->language,
+                    $response->score,
                     $response->status,
                     $response->started_at,
                     $response->completed_at,

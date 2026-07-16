@@ -8,7 +8,7 @@ use App\Models\Survey;
 use Illuminate\Database\Seeder;
 
 /** Seeds the default MY SEPHORA loyalty-quiz content. */
-class TireQualityCampaignSeeder extends Seeder
+class SephoraQuizSeeder extends Seeder
 {
     public function run(): void
     {
@@ -37,26 +37,32 @@ class TireQualityCampaignSeeder extends Seeder
         $survey->questions()->delete();
 
         $questions = [
+            // [Question Text, Options, Correct Index]
             ['What are the 3 MY SEPHORA tiers?', ['Silver', 'Bronze, Silver, Gold', 'Gold'], 1],
-            ['How many points do you need to Unlock Silver?', ['200 points', '300 points', '750 points'], 0],
+            ['How many points do you need to Unlock Silver?', ['200 points', '300 points', '750 points'], 1],
             ['Where can you redeem your Welcome Gift?', ['Only Online', 'Only Instore', 'Online, Instore and on the App.'], 2],
             ['How many points do you need to Unlock Gold?', ['1000 points', '500 points', '2000 points'], 0],
-            ['Fill in the blank: Every …. points you unlock a gift in the Silver tier.', ['600 points', '1000 points', '200 points'], 2],
-            ['Fill in the blank: Every …. points you unlock a gift in the Gold tier.', ['1000 points', '2000 points', '700 points'], 0],
+            ['Fill in the blank:', ['600 points', '1000 points', '200 points'], 2, 'Every …. points you unlock a gift in the Silver tier.'],
+            ['Fill in the blank:', ['1000 points', '2000 points', '700 points'], 1, 'Every …. points you unlock a gift in the Gold tier.'],
             ['How long is the birthday gift valid for?', ['1 Year', '1 Month', '1 Week'], 1],
-            ['True or False: The Welcome Gift can be redeemed on your first purchase.', ['True', 'False', 'None of the above'], 0],
-            ['True or False: Gold members get free delivery with online purchases.', ['True', 'False', 'None of the above'], 0],
-            ['Which tier(s) get access to a Private Sale?', ['Gold', 'Silver, Gold', 'Bronze, Silver, Gold'], 2],
+            ['True or False:', ['True', 'False', 'None of the above'], 0, 'The Welcome Gift can be redeemed on your first purchase.'],
+            ['True or False:', ['True', 'False', 'None of the above'], 0, 'Gold members get free delivery with online purchases.'],
+            ['Which tier(s) get access to a Private Sale?', ['Gold', 'Silver, Gold', 'Bronze, Silver, Gold'], 1],
             ['Which tier(s) receive a Birthday Gift?', ['Silver, Gold', 'Gold', 'Silver'], 0],
             ['How many points do you need to Unlock Bronze?', ['0 Points', '200 Points', '1000 Points'], 0],
-            ['Which tier(s) get invited to Events?', ['Bronze', 'Bronze, Silver, Gold', 'Silver, Gold'], 1],
+            ['Which tier(s) get invited to Events?', ['Gold', 'Silver', 'Silver, Gold'], 2],
         ];
 
-        foreach ($questions as $index => [$text, $options, $correctIndex]) {
+        foreach ($questions as $index => $qData) {
+            $text = $qData[0];
+            $options = $qData[1];
+            $correctIndex = $qData[2];
+            $subtitle = count($qData) > 3 ? $qData[3] : '';
+
             $question = $survey->questions()->create([
                 'type' => 'single_choice',
                 'text' => ['en' => $text, 'ar' => $text],
-                'description' => ['en' => '', 'ar' => ''],
+                'description' => ['en' => $subtitle, 'ar' => $subtitle],
                 'sort_order' => $index + 1,
                 'is_required' => true,
                 'is_active' => true,
@@ -67,7 +73,7 @@ class TireQualityCampaignSeeder extends Seeder
                 $question->answerOptions()->create([
                     'label' => ['en' => $label, 'ar' => $label],
                     'value' => 'option_'.($optionIndex + 1),
-                    'score' => $optionIndex === $correctIndex ? 1 : 0,
+                    'is_correct' => $optionIndex === $correctIndex,
                     'sort_order' => $optionIndex + 1,
                     'is_active' => true,
                 ]);
@@ -75,10 +81,10 @@ class TireQualityCampaignSeeder extends Seeder
         }
 
         Device::updateOrCreate(
-            ['device_identifier' => 'SEPHORA-KIOSK-001'],
+            ['device_identifier' => 'KIOSK-LOBBY-001'],
             [
-                'name' => 'MY SEPHORA Kiosk',
-                'api_token' => 'sephora-dev-token-2026-kiosk-001',
+                'name' => 'MY SEPHORA Kiosk Lobby',
+                'api_token' => 'qcc-dev-token-2025-lobby-001',
                 'campaign_id' => $campaign->id,
                 'status' => 'active',
             ],

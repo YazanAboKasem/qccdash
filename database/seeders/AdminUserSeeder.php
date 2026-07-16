@@ -10,9 +10,9 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@adqcc.gov.ae'],
+            ['email' => 'admin@sephora.local'],
             [
-                'name' => 'ADQCC Administrator',
+                'name' => 'MY SEPHORA Administrator',
                 'password' => bcrypt('password'),
                 'role' => 'admin',
                 'is_active' => true,
@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
         );
 
         User::updateOrCreate(
-            ['email' => 'manager@adqcc.gov.ae'],
+            ['email' => 'manager@sephora.local'],
             [
                 'name' => 'Campaign Manager',
                 'password' => bcrypt('password'),
@@ -30,7 +30,7 @@ class AdminUserSeeder extends Seeder
         );
 
         User::updateOrCreate(
-            ['email' => 'viewer@adqcc.gov.ae'],
+            ['email' => 'viewer@sephora.local'],
             [
                 'name' => 'Report Viewer',
                 'password' => bcrypt('password'),

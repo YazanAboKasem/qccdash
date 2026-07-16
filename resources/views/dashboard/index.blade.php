@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Overview')
-@section('header_title', 'System Dashboard')
+@section('title', 'MY SEPHORA Overview')
+@section('header_title', 'MY SEPHORA Dashboard')
 
 @section('content')
     <!-- Metrics Section -->
@@ -11,7 +11,7 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
             </div>
             <div>
-                <p class="text-sm font-semibold text-slate-500">Active Campaigns</p>
+                <p class="text-sm font-semibold text-slate-500">Active MY SEPHORA Campaigns</p>
                 <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ $stats['active_campaigns'] }} / {{ $stats['total_campaigns'] }}</h3>
             </div>
         </div>
@@ -53,7 +53,7 @@
         <!-- Campaigns list -->
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-lg font-bold text-slate-800 mb-6">Active Campaigns & Surveys</h3>
+                <h3 class="text-lg font-bold text-slate-800 mb-6">MY SEPHORA Quizzes</h3>
                 
                 <div class="space-y-6">
                     @foreach($campaigns as $campaign)

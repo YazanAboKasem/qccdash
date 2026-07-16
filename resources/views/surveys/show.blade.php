@@ -73,7 +73,7 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h3 class="text-lg font-bold text-slate-800">Survey Questions</h3>
-                    <p class="text-xs text-slate-400">Drag and drop rows to reorder questions.</p>
+                    <p class="text-xs text-slate-400">Drag to reorder. Use “Edit / Options” to change every question, option, and the correct answer.</p>
                 </div>
                 <button onclick="document.getElementById('addQuestionModal').classList.remove('hidden')" 
                         class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-md transition cursor-pointer">
@@ -88,7 +88,7 @@
                         <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-semibold border-b border-slate-100">
                             <th class="py-3.5 px-4 w-12"></th>
                             <th class="py-3.5 px-4 w-20">Code</th>
-                            <th class="py-3.5 px-4 w-48">Section / Axis</th>
+                            <th class="py-3.5 px-4 w-48">Quiz Section</th>
                             <th class="py-3.5 px-4">Question Text (EN / AR)</th>
                             <th class="py-3.5 px-4">Type</th>
                             <th class="py-3.5 px-4">Required</th>
@@ -203,11 +203,11 @@
                         <input type="text" name="settings[code]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 font-mono">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (English)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Quiz Section (English)</label>
                         <input type="text" name="settings[section]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (Arabic)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Quiz Section (Arabic)</label>
                         <input type="text" name="settings[section_ar]" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
                     </div>
                 </div>
@@ -233,7 +233,10 @@
                 <!-- Modal Answer Options Management -->
                 <div id="modalOptionsContainer" class="border-t border-slate-100 pt-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
+                        <div>
+                            <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
+                            <p class="text-xs text-slate-500 mt-1">Set <strong>Correct?</strong> to 1 for the correct option and 0 for every other option.</p>
+                        </div>
                         <button type="button" onclick="addModalOptionRow()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition cursor-pointer">
                             + Add Option Row
                         </button>
@@ -246,7 +249,7 @@
                                     <th class="py-3 px-4">Label (EN)</th>
                                     <th class="py-3 px-4">Label (AR)</th>
                                     <th class="py-3 px-4 w-24">Value</th>
-                                    <th class="py-3 px-4 w-20">Score</th>
+                                    <th class="py-3 px-4 w-20">Correct?</th>
                                     <th class="py-3 px-4 w-20">Icon (Emoji)</th>
                                     <th class="py-3 px-4 w-24">Color (Hex)</th>
                                     <th class="py-3 px-4 w-12 text-right"></th>

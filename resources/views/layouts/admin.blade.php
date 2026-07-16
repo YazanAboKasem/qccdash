@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'ADQCC Dashboard') - Kiosk Survey Admin</title>
+    <title>@yield('title', 'MY SEPHORA Dashboard') - Quiz Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .glass-sidebar {
-            background: linear-gradient(185deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(185deg, #171717 0%, #2d2d2d 100%);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
         .nav-item-active {
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.02) 100%);
-            border-left: 4px solid #D4AF37;
+            background: linear-gradient(90deg, rgba(226, 0, 26, 0.22) 0%, rgba(226, 0, 26, 0.02) 100%);
+            border-left: 4px solid #E2001A;
             color: #f8fafc;
         }
     </style>
@@ -26,8 +26,8 @@
         <!-- Sidebar Brand -->
         <div class="h-16 flex items-center px-6 border-b border-slate-800">
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 rounded-lg bg-yellow-500 flex items-center justify-center font-bold text-slate-900 text-lg shadow-md shadow-yellow-500/25">Q</div>
-                <span class="font-bold text-white text-lg tracking-wide uppercase">ADQCC Kiosk</span>
+                <div class="w-8 h-8 rounded-lg bg-[#E2001A] flex items-center justify-center font-bold text-white text-lg shadow-md">S</div>
+                <span class="font-bold text-white text-lg tracking-wide uppercase">MY SEPHORA</span>
             </div>
         </div>
 
@@ -81,7 +81,7 @@
             </div>
             
             <div class="flex items-center space-x-4">
-                <span class="text-sm text-slate-500 font-semibold">Abu Dhabi Quality and Conformity Council</span>
+                <span class="text-sm text-slate-500 font-semibold">MY SEPHORA Loyalty Quiz</span>
             </div>
         </header>
 

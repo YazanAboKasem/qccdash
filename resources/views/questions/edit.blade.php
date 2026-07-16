@@ -50,12 +50,12 @@
                                class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent font-mono">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (English)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Quiz Section (English)</label>
                         <input type="text" name="settings[section]" value="{{ $question->settings['section'] ?? '' }}" 
                                class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Section / Axis (Arabic)</label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Quiz Section (Arabic)</label>
                         <input type="text" name="settings[section_ar]" value="{{ $question->settings['section_ar'] ?? '' }}" 
                                class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                     </div>
@@ -82,7 +82,10 @@
                 <!-- Answer Options Management -->
                 <div id="optionsContainer" class="border-t border-slate-100 pt-6 {{ $question->type == 'text' ? 'hidden' : '' }}">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
+                        <div>
+                            <h4 class="text-md font-bold text-slate-800">Answer Options Configuration</h4>
+                            <p class="text-xs text-slate-500 mt-1">Set <strong>Correct?</strong> to 1 for the correct option and 0 for every other option.</p>
+                        </div>
                         <button type="button" onclick="addOptionRow()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition cursor-pointer">
                             + Add Option Row
                         </button>
@@ -95,7 +98,7 @@
                                     <th class="py-3 px-4">Label (EN)</th>
                                     <th class="py-3 px-4">Label (AR)</th>
                                     <th class="py-3 px-4 w-24">Value</th>
-                                    <th class="py-3 px-4 w-20">Score</th>
+                                    <th class="py-3 px-4 w-20">Correct?</th>
                                     <th class="py-3 px-4 w-20">Icon (Emoji)</th>
                                     <th class="py-3 px-4 w-24">Color (Hex)</th>
                                     <th class="py-3 px-4 w-12 text-right"></th>

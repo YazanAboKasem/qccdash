@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ADQCC Admin Dashboard</title>
+    <title>Login - MY SEPHORA Dashboard</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         .login-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #171717 0%, #3a1116 100%);
         }
     </style>
 </head>
@@ -16,9 +16,9 @@
     <div class="w-full max-w-md">
         <!-- Logo -->
         <div class="text-center mb-8">
-            <div class="inline-flex w-16 h-16 rounded-2xl bg-yellow-500 items-center justify-center font-black text-slate-900 text-3xl shadow-lg shadow-yellow-500/30 mb-4 animate-bounce">Q</div>
-            <h1 class="text-3xl font-extrabold text-white tracking-tight">ADQCC Portal</h1>
-            <p class="text-slate-300 mt-2 text-sm">Abu Dhabi Quality and Conformity Council</p>
+            <div class="inline-flex w-16 h-16 rounded-2xl bg-[#E2001A] items-center justify-center font-black text-white text-3xl shadow-lg mb-4">S</div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">MY SEPHORA</h1>
+            <p class="text-slate-300 mt-2 text-sm">Loyalty Quiz Dashboard</p>
         </div>
 
         <!-- Form Card -->
@@ -40,9 +40,9 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-                    <input type="email" name="email" id="email" value="{{ old('email', 'admin@adqcc.gov.ae') }}" required 
+                    <input type="email" name="email" id="email" value="{{ old('email', 'admin@sephora.local') }}" required 
                            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition duration-150"
-                           placeholder="admin@adqcc.gov.ae">
+                           placeholder="admin@sephora.local">
                 </div>
 
                 <div>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="text-center mt-8">
-            <span class="text-slate-400 text-xs">&copy; 2026 Abu Dhabi Government. All Rights Reserved.</span>
+            <span class="text-slate-400 text-xs">&copy; 2026 MY SEPHORA. All Rights Reserved.</span>
         </div>
     </div>
 
